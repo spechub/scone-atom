@@ -1,0 +1,8 @@
+.DS_Store
+npm-debug.log
+node_modules
+tree-sitter-scone/package-lock.json
+tree-sitter-scone/node_modules
+tree-sitter-scone/build
+tree-sitter-scone/*.log
+tree-sitter-scone/package-lock.json

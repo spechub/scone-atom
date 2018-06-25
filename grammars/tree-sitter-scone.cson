@@ -1,0 +1,62 @@
+id: 'scone'
+name: 'Scone'
+type: 'tree-sitter'
+parser: '../tree-sitter-scone'
+legacyScopeName: 'source.scone' #####
+
+fileTypes: ['feature']
+
+scopes:
+  'feature': 'source.scone' #####
+
+  #'source_file':
+
+  'assumption > given': 'keyword.other'
+  'test > then': 'keyword.other'
+  'definition > is_defined_as': 'keyword.control'
+  'consistency_test > consistency': 'constant.language'
+  #'consistency_test:nth-child(1)': 'constant.language'
+  'inference_test > infer_start': 'support.variable'
+  #'inference_test:nth-child(1)': 'support.variable'
+
+  '"Feature:"': 'keyword.other'
+  '"Background:"': 'keyword.other'
+  '"Scenario:"': 'keyword.other'
+
+  '"and"': 'constant.other'
+
+folds: [
+    {
+      type: ['scenario']
+      start: {type: 'scenario_head'}
+      #end: {type: 'scenario_body'}
+    },
+  {
+    type: ['scenario_head']
+    start: {type: 'title'}
+    #end: {type: 'scenario_body'}
+  }
+]
+###
+folds: [
+  {
+    type: ['scenario_head']
+    start: {type: 'title'}
+    #end: {type: 'scenario_body'}
+  }
+],
+  {
+    type: ['scenario_body']
+    start: {type: 'nothing'}
+    #end: {type: 'scenario_body'}
+  }
+]
+###
+###
+  {
+    type: ['scenario_body']
+  #  start: {type: 'title'}
+  #  end:
+  }
+]
+###
