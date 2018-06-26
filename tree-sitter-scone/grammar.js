@@ -91,18 +91,18 @@ module.exports = grammar({
       'some', $.class_name, choice('are','aren\'t'), $.class_expression
     ),
     fact: $ => choice(
-      $.instance, /*$.relation,*/ $.equation//, $.different
+      $.instance, $.relation, $.equation//, $.different
     ),
     instance: $ => seq(
       $.indiv_name, choice('is','isn\'t'), $.class_expression
     ),
-    /*
     relation: $ => seq(
-      $.indiv_name, 'predicate_phrase',/*$.predicate_phrase, $.indiv_name
-    ),*/
+      $.indiv_name, $.predicate_phrase, $.indiv_name
+    ),
     equation: $ => seq(
       $.indiv_name, choice('is','isn\'t'), 'the same as', $.indiv_name
-    ),/*
+    ),
+    /*
     different: $ => seq(
       $.indiv_name, repeat1('and', $.indiv_name), 'are different'
     ),*/
@@ -114,7 +114,24 @@ module.exports = grammar({
       optional(choice('a','an')), $.class_name
     ),
     class_atom: $ => seq(optional('not'), $.pos_class),
+    predicate_phrase: $ => choice(
+      seq($.predicate_open, $.predicate_name),
+      seq(choice('is','isn\'t'), optional(choice('a','an','the')),
+          $.predicate_fragement, $.predicate_end)
+    ),
+    predicate_open: $ => choice(
+      'does',
+      'doesn\'t',
+      seq(choice('has', 'hasn\'t'), 'as') //was soll das heißen?
+    ),
+    predicate_end:$ => choice(
+      'of', 'than', 'to', 'on', 'in'
+    ),
+
+
     class_name: $ => $.qname,
+    predicate_name: $ => $.qname,
+    predicate_fragement: $ => $.qname,
     indiv: $ => $.qname,
     indiv_name: $ => $.qname,
     qname: $ => 'qname',
