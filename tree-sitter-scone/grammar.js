@@ -14,7 +14,7 @@ module.exports = grammar({
       repeat($.tag), 'Feature:', $.title, '\n', $.narrative //$._newline
     ),
     title: $ => /.+/,
-    narrative: $ => /.+/,
+    narrative: $ => /.+/,   //[^]
     background: $ => seq(
       'Background:', optional($.language_setting), repeat($.import)
     ),
@@ -60,14 +60,14 @@ module.exports = grammar({
     ),
     //Sentences
     sentence: $ => choice(
-      $.definition, $.proposition, $.fact//, $.source
+      $.definition, $.proposition, $.fact, $.source
     ),
     infer_sentence: $ => choice(
       $.definition, $.universal, $.fact//, $.source
     ),
     definition: $ => choice(
       seq($.pos_class, $.is_defined_as, $.class_expression),
-      seq($.class_name, 'is enumerated as', $.indiv, repeat(seq('and', $.indiv)))
+      seq($.class_name, 'is enumerated as', $.indiv_name, repeat(seq('and', $.indiv_name)))
     ),
     proposition: $ => choice($.universal, $.particular),
     universal: $ => choice($.universal_positve, $.universal_negative),
@@ -91,7 +91,7 @@ module.exports = grammar({
       'some', $.class_name, choice('are','aren\'t'), $.class_expression
     ),
     fact: $ => choice(
-      $.instance, $.relation, $.equation//, $.different
+      $.instance, $.relation, $.equation, $.different
     ),
     instance: $ => seq(
       $.indiv_name, choice('is','isn\'t'), $.class_expression
@@ -102,10 +102,21 @@ module.exports = grammar({
     equation: $ => seq(
       $.indiv_name, choice('is','isn\'t'), 'the same as', $.indiv_name
     ),
-    /*
     different: $ => seq(
-      $.indiv_name, repeat1('and', $.indiv_name), 'are different'
-    ),*/
+      $.indiv_name, repeat1(seq('and', $.indiv_name)), $.are_different
+    ),
+    are_different: $ => 'are different', //#####
+    source: $ => seq(
+      $.language_ID, $.delimiter, $.source_body, $.delimiter
+    ),
+    source_body: $ => repeat1(choice(     //'some syntactically valid expression in the identified ontology language'
+      /[^"]/,
+      /"[^"]/,
+      /""[^"]/
+    )),
+    delimiter: $ => '"""', // EOL fehlt (für Syntaxhighlighting nicht wichtig?) seq('\n', '"""', '\n') funktioniert nicht wie gewünscht
+
+
     //Terms
     class_expression: $ => choice(
       $.class_atom//, $.conjunction, $.disjunction, $.qualified_class
@@ -132,8 +143,8 @@ module.exports = grammar({
     class_name: $ => $.qname,
     predicate_name: $ => $.qname,
     predicate_fragement: $ => $.qname,
-    indiv: $ => $.qname,
-    indiv_name: $ => $.qname,
+    //indiv: $ => $.qname,
+    indiv_name: $ => prec(1,$.qname),   //prec(1,
     qname: $ => 'qname',
     uriref: $ => 'uriref',
     //---------------------
