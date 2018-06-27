@@ -62,8 +62,15 @@
       "value": ".+"
     },
     "narrative": {
-      "type": "PATTERN",
-      "value": ".+"
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "PATTERN",
+          "value": "\\S"
+        }
+      }
     },
     "background": {
       "type": "SEQ",
@@ -206,23 +213,20 @@
       ]
     },
     "scenario_body": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT1",
-          "content": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
             "type": "SYMBOL",
             "name": "assumption"
-          }
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
+          },
+          {
             "type": "SYMBOL",
             "name": "test"
           }
-        }
-      ]
+        ]
+      }
     },
     "assumption": {
       "type": "SEQ",
@@ -323,6 +327,10 @@
         {
           "type": "SYMBOL",
           "name": "fact"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "source"
         }
       ]
     },
@@ -340,6 +348,10 @@
         {
           "type": "SYMBOL",
           "name": "fact"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "source"
         }
       ]
     },
@@ -376,7 +388,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "indiv"
+              "name": "indiv_name"
             },
             {
               "type": "REPEAT",
@@ -389,7 +401,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "indiv"
+                    "name": "indiv_name"
                   }
                 ]
               }
@@ -552,7 +564,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "relation"
+        },
+        {
+          "type": "SYMBOL",
           "name": "equation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "different"
         }
       ]
     },
@@ -579,6 +599,23 @@
         {
           "type": "SYMBOL",
           "name": "class_expression"
+        }
+      ]
+    },
+    "relation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "indiv_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "predicate_phrase"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "indiv_name"
         }
       ]
     },
@@ -612,12 +649,102 @@
         }
       ]
     },
+    "different": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "indiv_name"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "and"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "indiv_name"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "are_different"
+        }
+      ]
+    },
+    "are_different": {
+      "type": "STRING",
+      "value": "are different"
+    },
+    "source": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "language_ID"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "delimiter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "source_body"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "delimiter"
+        }
+      ]
+    },
+    "source_body": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^\"]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\"[^\"]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\"\"[^\"]"
+          }
+        ]
+      }
+    },
+    "delimiter": {
+      "type": "STRING",
+      "value": "\"\"\""
+    },
     "class_expression": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
           "name": "class_atom"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conjunction"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "disjunction"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualified_class"
         }
       ]
     },
@@ -672,25 +799,350 @@
         }
       ]
     },
+    "conjunction": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "pos_class"
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "and"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "class_atom"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "neither"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "pos_class"
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "nor"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "pos_class"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "disjunction": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "class_atom"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "or"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "class_atom"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "qualified_class": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "pos_class"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "who"
+            },
+            {
+              "type": "STRING",
+              "value": "which"
+            },
+            {
+              "type": "STRING",
+              "value": "that"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualifier"
+        }
+      ]
+    },
+    "qualifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "is"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "class_expression"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "predicate_phrase"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "quantifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "class_expression"
+            }
+          ]
+        }
+      ]
+    },
+    "quantifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "some"
+        },
+        {
+          "type": "STRING",
+          "value": "only"
+        }
+      ]
+    },
+    "predicate_phrase": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "predicate_open"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "predicate_name"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "is"
+                },
+                {
+                  "type": "STRING",
+                  "value": "isn't"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "a"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "an"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "the"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "predicate_fragement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "predicate_end"
+            }
+          ]
+        }
+      ]
+    },
+    "predicate_open": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "does"
+        },
+        {
+          "type": "STRING",
+          "value": "doesn't"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "has"
+                },
+                {
+                  "type": "STRING",
+                  "value": "hasn't"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "as"
+            }
+          ]
+        }
+      ]
+    },
+    "predicate_end": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "of"
+        },
+        {
+          "type": "STRING",
+          "value": "than"
+        },
+        {
+          "type": "STRING",
+          "value": "to"
+        },
+        {
+          "type": "STRING",
+          "value": "on"
+        },
+        {
+          "type": "STRING",
+          "value": "in"
+        }
+      ]
+    },
     "class_name": {
       "type": "SYMBOL",
       "name": "qname"
     },
-    "indiv": {
+    "predicate_name": {
+      "type": "SYMBOL",
+      "name": "qname"
+    },
+    "predicate_fragement": {
       "type": "SYMBOL",
       "name": "qname"
     },
     "indiv_name": {
-      "type": "SYMBOL",
-      "name": "qname"
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SYMBOL",
+        "name": "qname"
+      }
     },
     "qname": {
-      "type": "STRING",
-      "value": "qname"
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "PATTERN",
+          "value": "\\S"
+        }
+      }
     },
     "uriref": {
-      "type": "STRING",
-      "value": "uriref"
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "PATTERN",
+          "value": "\\S"
+        }
+      }
     },
     "given": {
       "type": "STRING",
