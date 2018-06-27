@@ -14,7 +14,7 @@ module.exports = grammar({
       repeat($.tag), 'Feature:', $.title, '\n', $.narrative //$._newline
     ),
     title: $ => /.+/,
-    narrative: $ => /.+/,   //[^]
+    narrative: $ => prec.left(repeat1(/\S/)), // ist das nicht eigentlich falsch?  //[^] /.+/
     background: $ => seq(
       'Background:', optional($.language_setting), repeat($.import)
     ),
@@ -37,10 +37,13 @@ module.exports = grammar({
       repeat($.assumption),
       repeat1($.test)
     )),*/
-    scenario_body: $ => seq(
+    scenario_body: $ => repeat1(
+      choice($.assumption,$.test)
+    ),
+    /*seq(
       repeat1($.assumption),
       repeat1($.test)
-    ),
+    ),*/
     assumption: $ => seq(
       $.given,
       $.sentence,
@@ -63,7 +66,7 @@ module.exports = grammar({
       $.definition, $.proposition, $.fact, $.source
     ),
     infer_sentence: $ => choice(
-      $.definition, $.universal, $.fact//, $.source
+      $.definition, $.universal, $.fact, $.source
     ),
     definition: $ => choice(
       seq($.pos_class, $.is_defined_as, $.class_expression),
@@ -119,12 +122,28 @@ module.exports = grammar({
 
     //Terms
     class_expression: $ => choice(
-      $.class_atom//, $.conjunction, $.disjunction, $.qualified_class
+      $.class_atom, $.conjunction, $.disjunction, $.qualified_class
     ),
     pos_class: $ => seq(
       optional(choice('a','an')), $.class_name
     ),
     class_atom: $ => seq(optional('not'), $.pos_class),
+
+    conjunction: $ => choice(
+      seq($.pos_class, repeat1(seq('and', $.class_atom))),
+      seq('neither', $.pos_class, repeat1(seq('nor', $.pos_class)))
+    ),
+    disjunction: $ => seq(
+      $.class_atom, repeat1(seq('or', $.class_atom))
+    ),
+    qualified_class: $ => seq(
+      $.pos_class, optional(','), choice('who','which','that'), $.qualifier
+    ),
+    qualifier: $ => choice(
+      seq('is', $.class_expression),
+      seq($.predicate_phrase, $.quantifier, $.class_expression)
+    ),
+    quantifier: $ => choice('some','only'),
     predicate_phrase: $ => choice(
       seq($.predicate_open, $.predicate_name),
       seq(choice('is','isn\'t'), optional(choice('a','an','the')),
@@ -135,9 +154,7 @@ module.exports = grammar({
       'doesn\'t',
       seq(choice('has', 'hasn\'t'), 'as') //was soll das heißen?
     ),
-    predicate_end:$ => choice(
-      'of', 'than', 'to', 'on', 'in'
-    ),
+    predicate_end:$ => choice('of', 'than', 'to', 'on', 'in'),
 
 
     class_name: $ => $.qname,
@@ -145,8 +162,8 @@ module.exports = grammar({
     predicate_fragement: $ => $.qname,
     //indiv: $ => $.qname,
     indiv_name: $ => prec(1,$.qname),   //prec(1,
-    qname: $ => 'qname',
-    uriref: $ => 'uriref',
+    qname: $ => prec.left(repeat1(/\S/)),
+    uriref: $ => prec.left(repeat1(/\S/)),
     //---------------------
     given: $ => 'Given',
     then: $ => 'Then',
