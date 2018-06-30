@@ -9,6 +9,6 @@
   "repository": "https://github.com/spechub/scone-atom",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
-  },
-  
+  }
+
 }
