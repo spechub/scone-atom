@@ -101,15 +101,19 @@
       ]
     },
     "tag": {
-      "type": "STRING",
-      "value": "a space delinited string startng with @"
+      "type": "PATTERN",
+      "value": "[@].+"
     },
     "language_setting": {
       "type": "SEQ",
       "members": [
         {
+          "type": "SYMBOL",
+          "name": "star"
+        },
+        {
           "type": "STRING",
-          "value": "* Language"
+          "value": "Language"
         },
         {
           "type": "SYMBOL",
@@ -134,8 +138,12 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "SYMBOL",
+          "name": "star"
+        },
+        {
           "type": "STRING",
-          "value": "* Test"
+          "value": "Test"
         },
         {
           "type": "CHOICE",
@@ -195,10 +203,6 @@
           "name": "narrative"
         },
         {
-          "type": "STRING",
-          "value": "\n"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
@@ -219,14 +223,30 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "assumption"
+            "name": "assumption_block"
           },
           {
             "type": "SYMBOL",
-            "name": "test"
+            "name": "test_block"
           }
         ]
       }
+    },
+    "assumption_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "assumption"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "further_assumption"
+          }
+        }
+      ]
     },
     "assumption": {
       "type": "SEQ",
@@ -234,6 +254,18 @@
         {
           "type": "SYMBOL",
           "name": "given"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "that"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -253,12 +285,99 @@
         }
       ]
     },
+    "further_assumption": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "And"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "that"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sentence"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "test_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "test"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "further_test"
+          }
+        }
+      ]
+    },
     "test": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
           "name": "then"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "inference_test"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "consistency_test"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "further_test": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "And"
         },
         {
           "type": "CHOICE",
@@ -508,13 +627,22 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "class_name"
+              "name": "qname"
             },
             {
               "type": "REPEAT1",
               "content": {
-                "type": "STRING",
-                "value": "and"
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "and"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "qname"
+                  }
+                ]
               }
             },
             {
@@ -654,7 +782,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "indiv_name"
+          "name": "qname"
         },
         {
           "type": "REPEAT1",
@@ -667,7 +795,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "indiv_name"
+                "name": "qname"
               }
             ]
           }
@@ -759,11 +887,11 @@
               "members": [
                 {
                   "type": "STRING",
-                  "value": "a"
+                  "value": "a "
                 },
                 {
                   "type": "STRING",
-                  "value": "an"
+                  "value": "an "
                 }
               ]
             },
@@ -1013,15 +1141,15 @@
                   "members": [
                     {
                       "type": "STRING",
-                      "value": "a"
+                      "value": "a "
                     },
                     {
                       "type": "STRING",
-                      "value": "an"
+                      "value": "an "
                     },
                     {
                       "type": "STRING",
-                      "value": "the"
+                      "value": "the "
                     }
                   ]
                 },
@@ -1144,6 +1272,10 @@
         }
       }
     },
+    "And": {
+      "type": "STRING",
+      "value": "And"
+    },
     "given": {
       "type": "STRING",
       "value": "Given"
@@ -1201,6 +1333,10 @@
           ]
         }
       ]
+    },
+    "star": {
+      "type": "STRING",
+      "value": "*"
     }
   },
   "extras": [
