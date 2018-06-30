@@ -16,7 +16,7 @@ module.exports = grammar({
     title: $ => /.+/,
     narrative: $ => prec.left(repeat1(/\S/)), // ist das nicht eigentlich falsch?  //[^] /.+/
     background: $ => seq(
-      'Background:', optional($.language_setting), repeat($.import)
+      $.BGround, optional($.language_setting), repeat($.import)
     ),
     tag: $ => /[@].+/,//'a space delinited string startng with @'
     language_setting: $ => seq(
@@ -27,10 +27,10 @@ module.exports = grammar({
 
     //Scenarios
     scenario: $ => seq(
-      repeat($.tag), $.scenario_head, $.scenario_body
+      repeat($.tag), 'Scenario:', $.title, $.scenario_head, $.scenario_body
     ),
     scenario_head: $ => seq(
-      'Scenario:', $.title, '\n', $.narrative,
+       '\n', $.narrative,
       optional($.language_setting)
     ),
     /*scenario_body: $ => repeat1(seq(
@@ -192,7 +192,8 @@ module.exports = grammar({
       'infer',
       optional('that')
     ),
-    star: $ => '*'
+    star: $ => '*',
+    BGround: $ => 'Background:'
 
   }
 });

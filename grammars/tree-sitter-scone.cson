@@ -40,7 +40,7 @@ scopes:
   'title': 'markup.bold'
   'narrative': 'comment.block'
   '"Feature:"': 'keyword.other'
-  '"Background:"': 'keyword.other'
+  'BGround': 'keyword.other'
   '"Scenario:"': 'keyword.other'
   '"the scenario is"': 'keyword.other'
   '"a "': 'keyword.other'
@@ -87,18 +87,22 @@ scopes:
 
 
 folds: [
-    {
-      type: ['scenario']
-      start: {type: 'scenario_head'}
-      #end: {type: 'scenario_body'}
-    },
+
   {
-    type: ['scenario_head']
+    type: ['background']
+    start: {type: 'BGround'}
+    #end: {type: ''}
+  },
+  {
+    type: ['scenario']
     start: {type: 'title'}
-    #end: {type: 'scenario_body'}
+    #end: {type: ''}
   }
+
+
 ]
 ###
+,
 folds: [
   {
     type: ['scenario_head']
@@ -106,11 +110,12 @@ folds: [
     #end: {type: 'scenario_body'}
   }
 ],
-  {
-    type: ['scenario_body']
-    start: {type: 'nothing'}
-    #end: {type: 'scenario_body'}
-  }
+{
+  type: ['scenario_body']
+  start: {type: 'assumption_block'#'test_block', index: -1}
+  #end: {type: 'scenario_body'}
+}
+
 ]
 ###
 ###
