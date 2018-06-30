@@ -1,6 +1,6 @@
 {
   "name": "language-scone",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Scone language support in Atom",
   "keywords": [
     "language",
