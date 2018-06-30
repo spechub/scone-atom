@@ -18,12 +18,12 @@ module.exports = grammar({
     background: $ => seq(
       'Background:', optional($.language_setting), repeat($.import)
     ),
-    tag: $ => 'a space delinited string startng with @',
+    tag: $ => /[@].+/,//'a space delinited string startng with @'
     language_setting: $ => seq(
-      '* Language', $.language_ID
+      $.star, 'Language', $.language_ID
     ),
     language_ID: $ => choice('%OWL', '%CommonLogic'),
-    import: $ => seq('* Test', optional('the ontology'), $.uriref),
+    import: $ => seq($.star, 'Test', optional('the ontology'), $.uriref),
 
     //Scenarios
     scenario: $ => seq(
@@ -31,26 +31,43 @@ module.exports = grammar({
     ),
     scenario_head: $ => seq(
       'Scenario:', $.title, '\n', $.narrative,
-      '\n', optional($.language_setting)
+      optional($.language_setting)
     ),
     /*scenario_body: $ => repeat1(seq(
       repeat($.assumption),
       repeat1($.test)
     )),*/
     scenario_body: $ => repeat1(
-      choice($.assumption,$.test)
+      choice($.assumption_block,$.test_block)
     ),
     /*seq(
       repeat1($.assumption),
       repeat1($.test)
     ),*/
+    // "Blöcke" einführen, damit "And" möglich ist.
+    assumption_block: $ => seq(
+      $.assumption, repeat($.further_assumption)
+    ),
     assumption: $ => seq(
-      $.given,
+      $.given, optional('that'),
       $.sentence,
       optional('.')
     ),
+    further_assumption: $ => seq(
+      $.And, optional('that'),
+      $.sentence,
+      optional('.')
+    ),
+    test_block: $ => seq(
+      $.test, repeat($.further_test)
+    ),
     test: $ => seq(
       $.then,
+      choice($.inference_test, $.consistency_test),
+      optional('.')
+    ),
+    further_test: $ => seq(
+      $.And,
       choice($.inference_test, $.consistency_test),
       optional('.')
     ),
@@ -87,7 +104,7 @@ module.exports = grammar({
         'no', $.class_name, 'is a', $.class_expression
       ),
       seq(
-        $.class_name, repeat1('and', $.class_name), 'are disjoint'
+        $.qname, repeat1(seq('and', $.qname)), 'are disjoint' //class_name
       )
     ),
     particular: $ => seq(
@@ -106,7 +123,7 @@ module.exports = grammar({
       $.indiv_name, choice('is','isn\'t'), 'the same as', $.indiv_name
     ),
     different: $ => seq(
-      $.indiv_name, repeat1(seq('and', $.indiv_name)), $.are_different
+      $.qname, repeat1(seq('and', $.qname)), $.are_different  //indiv_name
     ),
     are_different: $ => 'are different', //#####
     source: $ => seq(
@@ -125,7 +142,7 @@ module.exports = grammar({
       $.class_atom, $.conjunction, $.disjunction, $.qualified_class
     ),
     pos_class: $ => seq(
-      optional(choice('a','an')), $.class_name
+      optional(choice('a ','an ')), $.class_name
     ),
     class_atom: $ => seq(optional('not'), $.pos_class),
 
@@ -146,7 +163,7 @@ module.exports = grammar({
     quantifier: $ => choice('some','only'),
     predicate_phrase: $ => choice(
       seq($.predicate_open, $.predicate_name),
-      seq(choice('is','isn\'t'), optional(choice('a','an','the')),
+      seq(choice('is','isn\'t'), optional(choice('a ','an ','the ')),
           $.predicate_fragement, $.predicate_end)
     ),
     predicate_open: $ => choice(
@@ -165,6 +182,7 @@ module.exports = grammar({
     qname: $ => prec.left(repeat1(/\S/)),
     uriref: $ => prec.left(repeat1(/\S/)),
     //---------------------
+    And: $ => 'And',
     given: $ => 'Given',
     then: $ => 'Then',
     consistency: $ => choice('consistent','inconsistent'),
@@ -173,7 +191,8 @@ module.exports = grammar({
       optional('don\'t'),
       'infer',
       optional('that')
-    )
+    ),
+    star: $ => '*'
 
   }
 });
