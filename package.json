@@ -1,6 +1,6 @@
 {
   "name": "language-scone",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Scone language support in Atom",
   "keywords": [
     "language",
@@ -9,5 +9,8 @@
   "repository": "https://github.com/spechub/scone-atom",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "tree-sitter-scone": "file:tree-sitter-scone"
   }
 }
