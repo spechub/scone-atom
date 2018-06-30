@@ -1,6 +1,6 @@
 {
   "name": "language-scone",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Scone language support in Atom",
   "keywords": [
     "language",
@@ -12,5 +12,5 @@
   },
   "dependencies": {
     "./tree-sitter-scone": "1.0.0"
-}
+  }
 }
