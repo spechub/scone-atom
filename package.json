@@ -1,14 +1,16 @@
 {
   "name": "language-scone",
   "version": "0.0.0",
-  "description": "A short description of your language package",
+  "description": "Scone language support in Atom",
   "keywords": [
     "language",
     "grammar"
   ],
-  "repository": "https://github.com/atom/language-scone",
-  "license": "MIT",
+  "repository": "https://github.com/spechub/scone-atom",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
-  }
+  },
+  "dependencies": {
+    "./tree-sitter-scone": "1.0.0"
+}
 }
