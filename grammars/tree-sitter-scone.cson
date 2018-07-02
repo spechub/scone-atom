@@ -1,7 +1,7 @@
 id: 'scone'
 name: 'Scone'
 type: 'tree-sitter'
-parser: '../tree-sitter-scone'
+parser: 'tree-sitter-scone'
 legacyScopeName: 'source.scone' #####
 
 fileTypes: ['feature']
