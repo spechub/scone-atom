@@ -1,16 +1,78 @@
 id: 'scone'
 name: 'Scone'
 type: 'tree-sitter'
-parser: 'tree-sitter-scone'
-legacyScopeName: 'source.scone' #####
+parser: '/home/lukas/github/tree-sitter-scone'
+legacyScopeName: 'source.scone'
 
 fileTypes: ['feature']
 
 scopes:
-  'feature': 'source.scone' #####
+  'feature': 'source.scone'
 
-  #'source_file':
 
+  'test > then': 'constant.other'
+  'test > And': 'constant.other'
+  'test > full_stop': 'constant.other'
+  'inference_test > infer_start': 'constant.other'
+  'consistency_test': 'constant.other'
+
+  'assumption > assumption_start': 'entity.name.function'
+  'assumption > And': 'entity.name.function'
+  'assumption > full_stop': 'entity.name.function'
+  'assumption > That': 'entity.name.function'
+
+  'language_setting': 'comment.line'
+  'import': 'comment.line'
+  'tag': 'comment.line'
+  'narrative': 'comment.line'
+
+  '"and"': 'support.variable'
+  '"or"': 'support.variable'
+  '"neither"': 'support.variable'
+  '"nor"': 'support.variable'
+  '"who"': 'support.variable'
+  '"which"': 'support.variable'
+  #'"that"': 'support.variable'
+  'whowhichthat': 'support.variable'
+  '"some"': 'support.variable'
+  '"only"': 'support.variable'
+  '"not"': 'support.variable'
+
+  'predicate_phrase': 'string.other'
+
+  '"Feature:"': 'constant.numeric'
+  '"Background:"': 'keyword.other'
+  '"Scenario:"': 'keyword.other'
+###
+  'are_different': 'constant.numeric'
+  '"are different"': 'constant.numeric'
+  '"the same as"': 'constant.numeric'
+  '"are disjoint"': 'constant.numeric'
+  '"no"': 'constant.numeric'
+  '"is a"': 'constant.numeric'
+  '"a "': 'constant.numeric'
+  '"is"': 'constant.numeric'
+  '"every"': 'constant.numeric'
+  '","': 'constant.numeric'
+
+  'qname': 'variable.other.identifier'
+
+  #'ERROR': 'invalid.illegal'
+
+###
+###
+constant.other+
+---entity.name.type.class
+entity.name.function+
+keyword.control+
+constant.language.scone selbe wie constant.other
+string.other+
+support.variable+
+comment.line+
+constant.numeric
+
+
+#'source_file':
   'assumption > given': 'entity.name.function'
   'further_assumption > And': 'entity.name.function'
   'test > then': 'constant.language.scone' #entity.name.type.class
@@ -18,8 +80,8 @@ scopes:
   'definition > is_defined_as': 'keyword.control'
   '"is enumerated as"': 'keyword.control'
   '"is a subclass of"': 'keyword.control'
-  '"is"': 'keyword.control'
-  'consistency_test > consistency': 'support.variable'
+#  '"is"': 'keyword.control'
+  #'consistency_test > consistency': 'support.variable'
   #'consistency_test:nth-child(1)': 'constant.language'
   'inference_test > infer_start': 'keyword.other'
   #'inference_test:nth-child(1)': 'support.variable'  entity.name.type.class
@@ -27,12 +89,13 @@ scopes:
   'language_ID': 'support.variable'
   'source_body': 'constant.other'
 
-
+  'ERROR': 'invalid.illegal'
 
   'tag': 'comment.line'
   'star': 'support.variable'
 
-  'qname': 'string.other'
+  'assumption > qname': 'invalid.illegal'
+  'test > qname': 'string.other'
   'uriref': 'string.other'
 
   'are_different': 'keyword.other'
@@ -43,34 +106,24 @@ scopes:
   'BGround': 'keyword.other'
   '"Scenario:"': 'keyword.other'
   '"the scenario is"': 'keyword.other'
-  '"a "': 'keyword.other'
-  '"an "': 'keyword.other'
-  '"not"': 'keyword.other'
-  '"and"': 'keyword.other'
-  '"or"': 'keyword.other'
-  '"neither"': 'keyword.other'
-  '"nor"': 'keyword.other'
-  '"who"': 'keyword.other'
-  '"which"': 'keyword.other'
-  '"that"': 'keyword.other'
-  '"is"': 'keyword.other'
-  '"some"': 'keyword.other'
+#  '"a "': 'keyword.other'
+#  '"an "': 'keyword.other'
+#  '"is"': 'keyword.other'
   '"are"': 'keyword.other'
   '"aren\'t"': 'keyword.other'
-  '"only"': 'keyword.other'
-  '"is"': 'keyword.other'
-  '"isn\'t"': 'keyword.other'
-  '"the "': 'keyword.other'
-  '"does"': 'keyword.other'
-  '"doesn\'t"': 'keyword.other'
-  '"has"': 'keyword.other'
-  '"hasn\'t"': 'keyword.other'
-  '"as"': 'keyword.other'
-  '"of"': 'keyword.other'
-  '"than"': 'keyword.other'
-  '"to"': 'keyword.other'
-  '"on"': 'keyword.other'
-  '"in"': 'keyword.other'
+#  '"is"': 'keyword.other'
+#  '"isn\'t"': 'keyword.other'
+#  '"the "': 'keyword.other'
+#  '"does"': 'keyword.other'
+#  '"doesn\'t"': 'keyword.other'
+#  '"has"': 'keyword.other'
+#  '"hasn\'t"': 'keyword.other'
+#  '"as"': 'keyword.other'
+#  '"of"': 'keyword.other'
+#  '"than"': 'keyword.other'
+#  '"to"': 'keyword.other'
+#  '"on"': 'keyword.other'
+#  '"in"': 'keyword.other'
   '"are different"': 'keyword.other'
   '"the same as"': 'keyword.other'
   '"are disjoint"': 'keyword.other'
@@ -84,7 +137,7 @@ scopes:
   '"Language"': 'entity.name.function'
   '"Test"': 'entity.name.function'
   '"the ontology"': 'entity.name.function'
-
+###
 
 folds: [
 
