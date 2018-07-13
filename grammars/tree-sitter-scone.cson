@@ -1,7 +1,7 @@
 id: 'scone'
 name: 'Scone'
 type: 'tree-sitter'
-parser: '/home/lukas/github/tree-sitter-scone'
+parser: 'tree-sitter-scone'
 legacyScopeName: 'source.scone'
 
 fileTypes: ['feature']
@@ -10,52 +10,79 @@ scopes:
   'feature': 'source.scone'
 
 
-  'test > then': 'constant.other'
+  'test > Then': 'constant.other'
   'test > And': 'constant.other'
-  'test > full_stop': 'constant.other'
-  'inference_test > infer_start': 'constant.other'
+  'test > dot': 'constant.other'
+  'inference_test > donot': 'constant.other'
+  'inference_test > infer': 'constant.other'
+  'inference_test > that': 'constant.other'
   'consistency_test': 'constant.other'
 
-  'assumption > assumption_start': 'entity.name.function'
+  'assumption > Given': 'entity.name.function'
   'assumption > And': 'entity.name.function'
-  'assumption > full_stop': 'entity.name.function'
-  'assumption > That': 'entity.name.function'
+  'assumption > that': 'entity.name.function'
+  'assumption > dot': 'entity.name.function'
 
   'language_setting': 'comment.line'
   'import': 'comment.line'
   'tag': 'comment.line'
   'narrative': 'comment.line'
 
-  '"and"': 'support.variable'
-  '"or"': 'support.variable'
-  '"neither"': 'support.variable'
-  '"nor"': 'support.variable'
-  '"who"': 'support.variable'
-  '"which"': 'support.variable'
-  #'"that"': 'support.variable'
-  'whowhichthat': 'support.variable'
-  '"some"': 'support.variable'
-  '"only"': 'support.variable'
-  '"not"': 'support.variable'
+  '"and"': 'constant.numeric'
+  '"or"': 'constant.numeric'
+  '"neither"': 'constant.numeric'
+  '"nor"': 'constant.numeric'
+  #'"who"': 'constant.numeric'
+  #'"which"': 'constant.numeric'
+  #'"that"': 'constant.numeric'
+  'pronoun': 'constant.numeric'
+  '"some"': 'constant.numeric'
+  '"only"': 'constant.numeric'
+  'not': 'constant.numeric'
+  #------
+  'no': 'constant.numeric'
+  'every': 'constant.numeric'
+
 
   'predicate_phrase': 'string.other'
+  'predicate_name > qname': 'string.other'
+  'predicate_fragement > qname': 'string.other'
 
-  '"Feature:"': 'constant.numeric'
+
+  '"Feature:"': 'keyword.other'
   '"Background:"': 'keyword.other'
   '"Scenario:"': 'keyword.other'
-###
+
+  'definition > is_enumerated_as': 'support.variable'
+  'universal_positive > is_a_subclass_of': 'support.variable'
+  #'"is a subclass of"': 'support.variable'
+  'disjoint': 'support.variable'
+  'are': 'support.variable'
+  'different_KW': 'support.variable'
+  'the_same_as': 'support.variable'
+  'instance > is': 'support.variable'
+  'instance > isnot': 'support.variable'
+  'comma': 'support.variable'
+  'universal_negative > is': 'support.variable'
+  'universal_negative > a': 'support.variable'
+  'universal_positive > is': 'support.variable'
+  'pos_class > a': 'support.variable'
+  'pos_class > an': 'support.variable'
+  'qualifier > is': 'support.variable'
+
+  #'class_atom > not': 'variable.other.identifier'
+  'qname': 'variable.other.identifier'
+
+  'title': 'markup.bold'
+
+
+  ###
   'are_different': 'constant.numeric'
   '"are different"': 'constant.numeric'
-  '"the same as"': 'constant.numeric'
   '"are disjoint"': 'constant.numeric'
   '"no"': 'constant.numeric'
   '"is a"': 'constant.numeric'
-  '"a "': 'constant.numeric'
-  '"is"': 'constant.numeric'
-  '"every"': 'constant.numeric'
-  '","': 'constant.numeric'
 
-  'qname': 'variable.other.identifier'
 
   #'ERROR': 'invalid.illegal'
 
@@ -69,7 +96,7 @@ constant.language.scone selbe wie constant.other
 string.other+
 support.variable+
 comment.line+
-constant.numeric
+support.variable
 
 
 #'source_file':
@@ -92,7 +119,7 @@ constant.numeric
   'ERROR': 'invalid.illegal'
 
   'tag': 'comment.line'
-  'star': 'support.variable'
+  'star': 'constant.numeric'
 
   'assumption > qname': 'invalid.illegal'
   'test > qname': 'string.other'
