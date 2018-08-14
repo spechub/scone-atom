@@ -18,11 +18,11 @@ A few notes on the `scopes` section (which is the important part for syntax high
 
 1. The keys in that object are CSS selectors that select nodes in the syntax tree, similar to how normal CSS selectors select nodes in a DOM tree. Only a subset of CSS is supported. You can combine nodes with the `>` (direct child) operator, and the `:nth-child(n)` pseudo-class.
 
-Example: [https://github.com/atom/language-python/blob/master/grammars/tree-sitter-python.cson#L59](https://deref-gmx.net/mail/client/6ctD5kw1pNQ/dereferrer/?redirectUrl=https%3A%2F%2Fgithub.com%2Fatom%2Flanguage-python%2Fblob%2Fmaster%2Fgrammars%2Ftree-sitter-python.cson%23L59)
+Example: https://github.com/atom/language-python/blob/master/grammars/tree-sitter-python.cson#L59
 
 2. In Tree-sitter's syntax tree, there is a distinction between the *named* nodes (which correspond to a property of the grammar's `rules` object) and the *anonymous* nodes, which are just specified as string literals within some other rule. To refer to the anonymous nodes in the syntax tree, you must wrap them in double quotes.
 
-Example: [https://github.com/atom/language-python/blob/master/grammars/tree-sitter-python.cson#L78-L98](https://deref-gmx.net/mail/client/6ctD5kw1pNQ/dereferrer/?redirectUrl=https%3A%2F%2Fgithub.com%2Fatom%2Flanguage-python%2Fblob%2Fmaster%2Fgrammars%2Ftree-sitter-python.cson%23L78-L98)
+Example: https://github.com/atom/language-python/blob/master/grammars/tree-sitter-python.cson#L78-L98
 
 ---
 Damit die definierten Scopes in verschiedenen Themes farbig markiert werden, kann diese Konvention verwendet werden: [macromates.com: language grammars:](https://macromates.com/manual/en/language_grammars) Abschnitt 12.4 Naming conventions.
@@ -37,7 +37,7 @@ The fold objects have three fields:
 
 1. `type` - this means that this type of fold can only occur on syntax nodes with the given type(s).
 
-Example: [https://github.com/atom/language-python/blob/master/grammars/tree-sitter-python.cson#L22-L32](https://deref-gmx.net/mail/client/6ctD5kw1pNQ/dereferrer/?redirectUrl=https%3A%2F%2Fgithub.com%2Fatom%2Flanguage-python%2Fblob%2Fmaster%2Fgrammars%2Ftree-sitter-python.cson%23L22-L32)
+Example: https://github.com/atom/language-python/blob/master/grammars/tree-sitter-python.cson#L22-L32
 
 2. `start` - this is an object with the following keys, both optional:  
 
