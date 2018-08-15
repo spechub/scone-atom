@@ -13,9 +13,9 @@ scopes:
   'test > Then': 'constant.other'
   'test > And': 'constant.other'
   'test > dot': 'constant.other'
-  'inference_test > donot': 'constant.other'
-  'inference_test > infer': 'constant.other'
-  'inference_test > that': 'constant.other'
+  'test > donot': 'constant.other'
+  'test > infer': 'constant.other'
+  'test > that': 'constant.other'
   'consistency_test': 'constant.other'
 
   'assumption > Given': 'entity.name.function'
@@ -28,8 +28,8 @@ scopes:
   'tag': 'comment.line'
   'narrative': 'comment.line'
 
-  '"and"': 'constant.numeric'
-  '"or"': 'constant.numeric'
+  'conjunction > and': 'constant.numeric'
+  'or': 'constant.numeric'
   '"neither"': 'constant.numeric'
   '"nor"': 'constant.numeric'
   #'"who"': 'constant.numeric'
@@ -52,10 +52,13 @@ scopes:
   '"Feature:"': 'keyword.other'
   '"Background:"': 'keyword.other'
   '"Scenario:"': 'keyword.other'
+  #string.regexp, storage.type
 
   'definition > is_enumerated_as': 'support.variable'
+  'definition > and': 'support.variable'
+  'definition > is_defined_as': 'support.variable'
   'universal_positive > is_a_subclass_of': 'support.variable'
-  #'"is a subclass of"': 'support.variable'
+  'subclass_of': 'support.variable'
   'disjoint': 'support.variable'
   'are': 'support.variable'
   'different_KW': 'support.variable'
@@ -69,12 +72,22 @@ scopes:
   'pos_class > a': 'support.variable'
   'pos_class > an': 'support.variable'
   'qualifier > is': 'support.variable'
+  'qname_list > and': 'support.variable'
+  #'definition > is_defined_as': 'support.variable'
 
   #'class_atom > not': 'variable.other.identifier'
-  'qname': 'variable.other.identifier'
+  'indiv_name': 'storage.modifier'
+  'different > qname_list': 'storage.modifier'
 
-  'title': 'markup.bold'
+  'class_name': 'variable.other.identifier'
+  'universal_negative > qname_list': 'variable.other.identifier'
 
+  #'qname': 'variable.other.identifier'
+
+  #'title': 'markup.bold'
+
+  #'ERROR': 'markup.underline'
+  #invalid.illegal
 
   ###
   'are_different': 'constant.numeric'
@@ -84,7 +97,6 @@ scopes:
   '"is a"': 'constant.numeric'
 
 
-  #'ERROR': 'invalid.illegal'
 
 ###
 ###

@@ -11,6 +11,6 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "tree-sitter-scone": "0.0.1"
+    "tree-sitter-scone": "0.0.7"
   }
 }
